@@ -1,0 +1,17 @@
+sites:
+   ggl:
+      name: Google
+      host: google.com
+      scheme: https
+   wkpd:
+      name: Wikipedia
+      host: wikipedia.org
+      scheme: https
+   twt:
+      name: Twitter
+      host: twitter.com
+      scheme: https
+   fcb:
+      name: Facebook
+      host: facebook.com
+      scheme: https
