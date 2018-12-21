@@ -1,7 +1,7 @@
 import sys
 import argparse
 import logging
-
+import results_processor
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -15,8 +15,37 @@ logger.debug('debug')
 logger.info('info')
 logger.warning('warning')
 
-print()
+#
+parser = argparse.ArgumentParser(usage='Available params --get and --view', description='pppppppppppparser')
+parser.add_argument('-g', '--get',  help='url to web site page to parse')
+parser.add_argument('-v', '--view', help='url to web site page to parse')
+#
+args = parser.parse_args()
 
+
+if args.get:
+    print('CLI get')
+    get = args.get
+    #url_executor
+    if get in aliases:
+        url = get_url(get)
+    else:
+        url = get
+    process(url)
+
+
+elif args.view:
+    print('CLI view')
+    print(args.view)
+#    db_module.view(url)
+
+else:
+    print('Loading GUI')
+    GUI()
+
+
+def process(url):
+    results_processor.process(url)
 
 def greetings():
     print('Super Hi %username% !')
@@ -25,19 +54,7 @@ def greetings():
     print('For cli version specify site url --url')
 
 
-def initializer():
-    print(sys.argv)
-#    parser = argparse.ArgumentParser('SUPER HI')
-#    parser.add_argument('-g', '--get',  help='url to web site page to parse')
-#    parser.add_argument('-v', '--view', help='url to web site page to parse')
-#    args = parser.parse_args()
 
-#    if args.get:
-#        print(args.get)
-#    if args.view:
-#        print(args.view)
-#    else:
-#        print('Loading GUI')
 
 
 
