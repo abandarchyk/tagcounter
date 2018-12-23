@@ -15,11 +15,9 @@ c = conn.cursor()
 create_table()
 
 
-
 def close():
     c.close()
     conn.close()
-
 
 
 def save_results(site_name, site_url, scan_timestamp, tags: dict):

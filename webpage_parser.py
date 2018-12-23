@@ -4,6 +4,7 @@ import datetime
 import pickle
 import sqlite3
 import logging
+import io
 
 
 # LOGGING
@@ -26,33 +27,35 @@ logger.addHandler(fileHandler)
 
 class PageData:
 
-    def __init__(self, title: str, links: list, tags_dict: dict):
+    def __init__(self, title: str, tags_dict: dict):
         self.title = title
-        self.links = links
         self.tags_dict = tags_dict
         self.datetime_stamp = datetime.datetime.now().strftime('%d_%m_%YT%H:%M:%S:%f')
 
+    def __pretty_print__(self):
+        source = '| TAG : COUNT |'
+        sep = '\n|' + '-' * 13 + '|\n'
+        for tag, count in self.tags_dict.items():
+            current = ' ' + str(tag) + ' : ' + str(count)
+            source = source + sep + current
+        return 'Page title: ' + self.title + '\n' + source
+
     def __str__(self):
-        return 'PAGE DATA TITLE: ' + self.title
+        return self.__pretty_print__()
 
 
 def parse(html):
-    # assert
-    soup = BeautifulSoup(html, 'html.parser')
-    # log: soup.prettify()
-    title = soup.find('title')
-    print(title)
-    # link
-    hrefs = [link.get('href') for link in soup.find_all('a', href=True)]
-    print('HREFS')
-    print(hrefs)
-    tags_results = Counter([i.name for i in soup.find_all(True)])
-    tags_dictionary = dict(tags_results)
-    print('Result dict:')
-    print(tags_dictionary)
-
-    page = PageData(title.text, hrefs, tags_dictionary)
-    return page
+    if html is not None:
+        soup = BeautifulSoup(html, 'html.parser')
+        print('Web page source:\n' + soup.prettify())
+        title = soup.find('title')
+        tags_results = Counter([i.name for i in soup.find_all(True)])
+        tags_dictionary = dict(tags_results)
+        page_data = PageData(title.text, tags_dictionary)
+        return page_data
+    else:
+        print('warning')
+        raise RuntimeWarning('Requested page has empty source')
 
 
 

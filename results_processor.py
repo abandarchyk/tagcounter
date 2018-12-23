@@ -1,7 +1,8 @@
 import requests
 import webpage_parser
 import db_module
-import config
+import re
+import tagcounter_config
 
 
 # имя сайта, url, дата проверки, данные о тэгах. sqlite.Binary(file)
@@ -14,30 +15,47 @@ def _get_full_url(site: dict):
     return url
 
 
-def process0(site: dict):
-    # assert
-    full_url = _get_full_url(site)
-    response = requests.get(full_url)
-    response_content = response.content
-    print(response.status_code)
-    page = webpage_parser.parse(response_content)
-    db_module.save_results(site['name'], full_url, page.datetime_stamp, page.tags_dict)
-    return page
-
-
-def process(url: str):
+def process_url(get_param: str):
+    print('Receiving site=' + get_param)
+    url = tagcounter_config.get_url(get_param)
+    if url is None:
+        url = format_url(get_param)
     html = http_get(url)
-    site = webpage_parser.parse(html)
-    db_module.save_results(site['name'], site.root_url, site.datetime_stamp, site.tags_dict)
-    return site
+    page_data = webpage_parser.parse(html)
+    page_data.base_url = url
+    return page_data
 
 
 def http_get(url: str):
-    #base validation
+    print('HTTP: GET ' + url)
     response = requests.get(url)
-    response_content = response.content
-    print(response.status_code)
-    return response_content
+    if response.status_code is not 200:
+        raise RuntimeError('HTTP Error. Response status code is: ' + response.status_code)
+    return response.content
+
+
+def format_url(user_input: str):
+    print('Validating input against URL mask')
+    pattern = '(https{0,1}://){0,1}[a-zA-Z0-9]+[.]{1}[a-zA-Z0-9]+'
+    match1 = re.match(pattern, user_input)
+    if match1 is not None:
+        print(match1.group(1))
+        scheme = match1.group(1)
+        if scheme is not None:
+            url = user_input
+        else:
+            url = 'http://' + user_input
+        print('Validation passed. URL=' + url)
+        return url
+    else:
+        raise RuntimeError('Please set the correct url')
+
+
+# format_url('yandex.by')
+
+
+
+
 
 
 
