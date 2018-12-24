@@ -1,9 +1,12 @@
 import results_processor
 import db_module
+import tclogger
+
+logger = tclogger.get_logger(__name__)
 
 
 def run(args):
-    print('Loading CLI')
+    logger.info('Loading CLI')
     print(args.get)
     if args.get:
         site_data = results_processor.process_url(args.get)

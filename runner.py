@@ -1,24 +1,6 @@
-import sys
 import argparse
-import logging
-import results_processor
-import tagcounter_config
 import GUI
 import CLI
-
-# init logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-consoleHandler = logging.StreamHandler(sys.stdout)
-consoleFormatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-consoleHandler.setFormatter(consoleFormatter)
-consoleHandler.setLevel(logging.INFO)
-logger.addHandler(consoleHandler)
-
-logger.debug('debug')
-logger.info('info')
-logger.warning('warning')
-#
 
 
 # init parser

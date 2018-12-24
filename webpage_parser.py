@@ -1,28 +1,9 @@
 from bs4 import BeautifulSoup
 from collections import Counter
 import datetime
-import pickle
-import sqlite3
-import logging
-import io
+import tclogger
 
-
-# LOGGING
-
-logger = logging.getLogger('cho')
-
-consoleHandler = logging.StreamHandler()
-consoleFormatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-consoleHandler.setFormatter(consoleFormatter)
-consoleHandler.setLevel(logging.INFO)
-logger.addHandler(consoleHandler)
-
-
-fileHandler = logging.FileHandler('loggi.log')
-fileFormatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fileHandler.setFormatter(fileFormatter)
-fileHandler.setLevel(logging.DEBUG)
-logger.addHandler(fileHandler)
+logger = tclogger.get_logger(__name__)
 
 
 class PageData:
@@ -45,16 +26,17 @@ class PageData:
 
 
 def parse(html):
+    logger.info('Start parsing web page content')
     if html is not None:
         soup = BeautifulSoup(html, 'html.parser')
-        print('Web page source:\n' + soup.prettify())
+        logger.debug('Web page source:\n' + str(soup.prettify()))
         title = soup.find('title')
         tags_results = Counter([i.name for i in soup.find_all(True)])
         tags_dictionary = dict(tags_results)
         page_data = PageData(title.text, tags_dictionary)
         return page_data
     else:
-        print('warning')
+        logger.warn('Warning! Empty page source')
         raise RuntimeWarning('Requested page has empty source')
 
 

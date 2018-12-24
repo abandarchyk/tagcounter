@@ -1,4 +1,7 @@
 import yaml
+import tclogger
+
+logger = tclogger.get_logger(__name__)
 
 # YAML
 with open('conf/config.yaml', 'r') as config_file:
@@ -6,10 +9,10 @@ with open('conf/config.yaml', 'r') as config_file:
 
 
 def get_url(user_input: str):
-    print('Checking if site=' + user_input + ' already exists in the config')
+    logger.debug('Checking if site=' + user_input + ' already exists in the config')
     site = dict(config['sites']).get(user_input, None)
     result = site['url'] if site is not None else None
-    print('Found: ' + str(result))
+    logger.debug('Found: ' + str(result))
     return result
 
 
