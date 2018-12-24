@@ -13,15 +13,7 @@ def get_url(user_input: str):
     return result
 
 
-#filter func
-def get_site(host):
+def get_sites_urls():
     sites = config['sites']
-    site = [site for site in sites.values() if site['host'] == host][0]
-    print(site)
-    return site
-
-
-
-# todo parse_props
-
-# todo create site class to use methods
+    urls = [site['url'] for site in sites.values()]
+    return urls

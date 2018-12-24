@@ -14,7 +14,9 @@ def run(args):
         else:
             print('As you wish. Bye!')
     elif args.view:
-        results_processor.show_results(args.view)
+        site_data = results_processor.show_results(args.view)
+        print(site_data)
+
 
 
 

@@ -1,5 +1,6 @@
 import sqlite3
 import pickle
+from webpage_parser import PageData
 
 # todo connection management
 
@@ -27,13 +28,16 @@ def save_results(site_name, site_url, scan_timestamp, tags: dict):
     conn.commit()
 
 
-def show_from_db():
-    c.execute('SELECT site_url, scan_timestamp, tags FROM scan_results WHERE site_name="tut.by"')
+def show_from_db(site_url):
+    c.execute('SELECT site_name, tags FROM scan_results WHERE site_url="' + site_url + '"')
     data = c.fetchall()
-    print(data[0][0])
-    print(data[0][1])
-    print(data[0][2])
-    res = pickle.loads(data[0][2])
-    print(res)
+    conn.commit()
+    site_name = data[0][0]
+    tags_pickled = data[0][1]
+    tags_unpickled = pickle.loads(tags_pickled)
+    page_data = PageData(site_name, tags_unpickled)
+    return page_data
+
+
 
 

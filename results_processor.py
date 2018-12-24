@@ -19,11 +19,21 @@ def process_url(get_param: str):
     print('Receiving site=' + get_param)
     url = tagcounter_config.get_url(get_param)
     if url is None:
-        url = format_url(get_param)
+        url = __format_url__(get_param)
     html = http_get(url)
     page_data = webpage_parser.parse(html)
     page_data.base_url = url
     return page_data
+
+
+def show_results(view_param: str):
+    print('Show results for url = ' + view_param)
+    url = tagcounter_config.get_url(view_param)
+    if url is None:
+        url = __format_url__(view_param)
+    page_data = db_module.show_from_db(url)
+    return page_data
+
 
 
 def http_get(url: str):
@@ -34,7 +44,7 @@ def http_get(url: str):
     return response.content
 
 
-def format_url(user_input: str):
+def __format_url__(user_input: str):
     print('Validating input against URL mask')
     pattern = '(https{0,1}://){0,1}[a-zA-Z0-9]+[.]{1}[a-zA-Z0-9]+'
     match1 = re.match(pattern, user_input)
@@ -50,8 +60,6 @@ def format_url(user_input: str):
     else:
         raise RuntimeError('Please set the correct url')
 
-
-# format_url('yandex.by')
 
 
 
