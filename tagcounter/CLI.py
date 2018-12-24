@@ -1,6 +1,6 @@
-import results_processor
-import db_module
-import tclogger
+from tagcounter import results_processor
+from tagcounter import db_module
+from tagcounter import tclogger
 
 logger = tclogger.get_logger(__name__)
 

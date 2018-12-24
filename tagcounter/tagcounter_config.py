@@ -1,10 +1,11 @@
 import yaml
-import tclogger
+from tagcounter import tclogger
 
 logger = tclogger.get_logger(__name__)
 
+
 # YAML
-with open('conf/config.yaml', 'r') as config_file:
+with open('tagcounter/conf/config.yaml', 'r') as config_file:
     config = yaml.load(config_file)
 
 

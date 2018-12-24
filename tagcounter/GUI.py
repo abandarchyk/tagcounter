@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import simpledialog
 from tkinter.ttk import Combobox
-import tagcounter_config as conf
-import results_processor
-import db_module
+from tagcounter import tagcounter_config as conf
+from tagcounter import results_processor
+from tagcounter import db_module
 
 
 class MainForm:

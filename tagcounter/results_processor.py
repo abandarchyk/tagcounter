@@ -1,9 +1,9 @@
 import requests
-import webpage_parser
-import db_module
+from tagcounter import webpage_parser
+from tagcounter import db_module
 import re
-import tagcounter_config
-import tclogger
+from tagcounter import tagcounter_config
+from tagcounter import tclogger
 
 
 logger = tclogger.get_logger(__name__)

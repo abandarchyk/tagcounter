@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from collections import Counter
 import datetime
-import tclogger
+from tagcounter import tclogger
 
 logger = tclogger.get_logger(__name__)
 

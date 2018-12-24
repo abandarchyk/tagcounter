@@ -1,6 +1,6 @@
 import argparse
-import GUI
-import CLI
+from tagcounter import GUI
+from tagcounter import CLI
 
 
 # init parser
@@ -10,12 +10,17 @@ parser.add_argument('-v', '--view', help='url to web site page to parse')
 #
 
 
-if __name__ == '__main__':
+def main():
     args = parser.parse_args()
     if args.get or args.view:
         CLI.run(args)
     else:
         GUI.run()
+
+
+if __name__ == '__main__':
+    main()
+
 
 
 

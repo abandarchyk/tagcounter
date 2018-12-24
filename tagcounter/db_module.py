@@ -1,7 +1,7 @@
 import sqlite3
 import pickle
-from webpage_parser import PageData
-import tclogger
+from tagcounter.webpage_parser import PageData
+from tagcounter import tclogger
 
 logger = tclogger.get_logger(__name__)
 
@@ -12,7 +12,7 @@ def create_table():
     conn.commit()
 
 
-conn = sqlite3.connect('db/scan_results.db')
+conn = sqlite3.connect('tagcounter/db/scan_results.db')
 c = conn.cursor()
 create_table()
 
